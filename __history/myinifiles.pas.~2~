@@ -1,0 +1,17 @@
+unit myinifiles;
+
+interface
+ uses System.SysUtils,inifiles;
+
+procedure createini(s:string);
+
+implementation
+
+ procedure createini(s:string);
+  var
+   ini:tinifile;
+  begin
+   ini:=Tinifile.Create(extractfilepath(paramstr(0))+s);
+   ini.Free;
+  end;
+end.

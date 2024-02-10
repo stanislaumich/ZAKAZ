@@ -1,0 +1,14 @@
+object DM: TDM
+  OldCreateOrder = False
+  Height = 473
+  Width = 625
+  object FDC: TFDConnection
+    Params.Strings = (
+      'DriverID=SQLite'
+      'Database=D:\zakaz.sqlite')
+    ConnectedStoredUsage = [auDesignTime]
+    LoginPrompt = False
+    Left = 4
+    Top = 4
+  end
+end

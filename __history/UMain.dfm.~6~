@@ -1,0 +1,86 @@
+object Form1: TForm1
+  Left = 0
+  Top = 0
+  Caption = #1047#1072#1082#1072#1079#1099' '#1089#1090#1091#1076#1077#1085#1095#1077#1089#1082#1080#1093' '#1073#1080#1083#1077#1090#1086#1074' '#1080' '#1079#1072#1095#1077#1090#1085#1099#1093' '#1082#1085#1080#1078#1077#1082
+  ClientHeight = 479
+  ClientWidth = 894
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 894
+    Height = 41
+    Align = alTop
+    TabOrder = 0
+    object Edit1: TEdit
+      Left = 712
+      Top = 4
+      Width = 130
+      Height = 37
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -24
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      ParentFont = False
+      TabOrder = 0
+      Text = 'Edit1'
+    end
+    object BitBtn1: TBitBtn
+      Left = 848
+      Top = 2
+      Width = 43
+      Height = 35
+      TabOrder = 1
+      OnClick = BitBtn1Click
+    end
+  end
+  object PageControl1: TPageControl
+    Left = 0
+    Top = 41
+    Width = 894
+    Height = 419
+    ActivePage = TabSheet1
+    Align = alClient
+    TabOrder = 1
+    object TabSheet1: TTabSheet
+      Caption = #1057#1090#1091#1076#1077#1085#1095#1077#1089#1082#1080#1081' '#1073#1080#1083#1077#1090
+      object DBGrid1: TDBGrid
+        Left = 100
+        Top = 76
+        Width = 501
+        Height = 221
+        DataSource = DM.DWStud
+        TabOrder = 0
+        TitleFont.Charset = DEFAULT_CHARSET
+        TitleFont.Color = clWindowText
+        TitleFont.Height = -11
+        TitleFont.Name = 'Tahoma'
+        TitleFont.Style = []
+      end
+    end
+    object TabSheet2: TTabSheet
+      Caption = #1047#1072#1095#1077#1090#1085#1072#1103' '#1082#1085#1080#1078#1082#1072
+      ImageIndex = 1
+    end
+  end
+  object StatusBar1: TStatusBar
+    Left = 0
+    Top = 460
+    Width = 894
+    Height = 19
+    Panels = <>
+  end
+  object FDC: TFDConnection
+    Left = 768
+    Top = 388
+  end
+end
