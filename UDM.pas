@@ -19,6 +19,8 @@ type
     FDC: TFDConnection;
     TWstud: TFDTable;
     DWStud: TDataSource;
+    DFind: TDataSource;
+    QFind: TFDQuery;
   private
     { Private declarations }
   public

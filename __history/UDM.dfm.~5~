@@ -1,0 +1,56 @@
+object DM: TDM
+  OldCreateOrder = False
+  Height = 473
+  Width = 625
+  object FDC: TFDConnection
+    Params.Strings = (
+      'DriverID=SQLite'
+      'Database=D:\zakaz.sqlite')
+    ConnectedStoredUsage = [auDesignTime]
+    Connected = True
+    LoginPrompt = False
+    Left = 4
+    Top = 4
+  end
+  object TWstud: TFDTable
+    Active = True
+    Connection = FDC
+    TableName = 'w_stud'
+    Left = 80
+    Top = 36
+  end
+  object DWStud: TDataSource
+    DataSet = TWstud
+    Left = 132
+    Top = 36
+  end
+  object DFind: TDataSource
+    DataSet = QFind
+    Left = 132
+    Top = 92
+  end
+  object QFind: TFDQuery
+    Connection = FDC
+    SQL.Strings = (
+      'select * '
+      'from w_stud '
+      'where fam like :fam '
+      'and name like :name '
+      'and otch like :otch ')
+    Left = 80
+    Top = 92
+    ParamData = <
+      item
+        Name = 'FAM'
+        ParamType = ptInput
+      end
+      item
+        Name = 'NAME'
+        ParamType = ptInput
+      end
+      item
+        Name = 'OTCH'
+        ParamType = ptInput
+      end>
+  end
+end

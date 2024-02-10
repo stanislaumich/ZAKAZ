@@ -24,4 +24,40 @@ object DM: TDM
     Left = 132
     Top = 36
   end
+  object DFind: TDataSource
+    DataSet = QFind
+    Left = 132
+    Top = 92
+  end
+  object QFind: TFDQuery
+    Active = True
+    Connection = FDC
+    SQL.Strings = (
+      'select * '
+      'from w_stud '
+      'where fam like :fam '
+      'and name like :name '
+      'and otch like :otch ')
+    Left = 80
+    Top = 92
+    ParamData = <
+      item
+        Name = 'FAM'
+        DataType = ftString
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'NAME'
+        DataType = ftString
+        ParamType = ptInput
+        Value = Null
+      end
+      item
+        Name = 'OTCH'
+        DataType = ftString
+        ParamType = ptInput
+        Value = Null
+      end>
+  end
 end
