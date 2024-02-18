@@ -10,10 +10,8 @@ object Form1: TForm1
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
-  OldCreateOrder = False
   OnClose = FormClose
   OnCreate = FormCreate
-  PixelsPerInch = 96
   TextHeight = 13
   object Panel1: TPanel
     Left = 0
@@ -22,6 +20,7 @@ object Form1: TForm1
     Height = 41
     Align = alTop
     TabOrder = 0
+    ExplicitWidth = 890
     DesignSize = (
       894
       41)
@@ -39,6 +38,7 @@ object Form1: TForm1
       ParentFont = False
       TabOrder = 0
       Text = 'Edit1'
+      ExplicitLeft = 708
     end
     object BitBtn1: TBitBtn
       Left = 848
@@ -48,6 +48,7 @@ object Form1: TForm1
       Anchors = [akTop, akRight]
       TabOrder = 1
       OnClick = BitBtn1Click
+      ExplicitLeft = 844
     end
   end
   object PageControl1: TPageControl
@@ -58,6 +59,8 @@ object Form1: TForm1
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 1
+    ExplicitWidth = 890
+    ExplicitHeight = 597
     object TabSheet1: TTabSheet
       Caption = #1047#1072#1082#1072#1079#1072#1090#1100' '#1087#1077#1095#1072#1090#1100
       object Splitter1: TSplitter
@@ -78,6 +81,7 @@ object Form1: TForm1
         Align = alTop
         Caption = #1055#1072#1088#1072#1084#1077#1090#1088#1099
         TabOrder = 0
+        ExplicitWidth = 882
         DesignSize = (
           886
           273)
@@ -138,6 +142,7 @@ object Form1: TForm1
           Anchors = [akLeft, akBottom]
           Caption = #1057#1090#1091#1076#1077#1085#1095#1077#1089#1082#1080#1081' '#1073#1080#1083#1077#1090
           TabOrder = 3
+          Visible = False
           OnClick = CheckBox1Click
         end
         object CheckBox2: TCheckBox
@@ -284,6 +289,7 @@ object Form1: TForm1
           Caption = #1044#1091#1073#1083#1080#1082#1072#1090
           Enabled = False
           TabOrder = 7
+          Visible = False
         end
         object CheckBox4: TCheckBox
           Left = 208
@@ -304,6 +310,8 @@ object Form1: TForm1
         Align = alClient
         Caption = #1047#1072#1082#1072#1079
         TabOrder = 1
+        ExplicitWidth = 882
+        ExplicitHeight = 291
         DesignSize = (
           886
           292)
@@ -319,6 +327,7 @@ object Form1: TForm1
           TitleFont.Height = -11
           TitleFont.Name = 'Tahoma'
           TitleFont.Style = []
+          Visible = False
         end
         object StringGrid1: TStringGrid
           Left = 4
@@ -328,6 +337,8 @@ object Form1: TForm1
           Anchors = [akLeft, akTop, akRight, akBottom]
           DefaultRowHeight = 20
           TabOrder = 1
+          ExplicitWidth = 425
+          ExplicitHeight = 217
         end
         object BitBtn3: TBitBtn
           Left = 4
@@ -492,5 +503,7 @@ object Form1: TForm1
     Width = 894
     Height = 19
     Panels = <>
+    ExplicitTop = 638
+    ExplicitWidth = 890
   end
 end
