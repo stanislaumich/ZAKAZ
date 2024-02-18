@@ -108,6 +108,7 @@
             <DesignClass>TDataModule</DesignClass>
         </DCCReference>
         <DCCReference Include="myinifiles.pas"/>
+        <DCCReference Include="MYUNITS\Ustr.pas"/>
         <BuildConfiguration Include="Base">
             <Key>Base</Key>
         </BuildConfiguration>

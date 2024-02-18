@@ -1,0 +1,702 @@
+Skip to Content 
+
+Skip to Wiki Navigation 
+
+Skip to Site Navigation 
+
+Search this wikia this wikia all of Wikia  
++ 
+
+Delphi Programming 
+
+On the Wiki 
+
+Wiki Activity 
+
+Random page 
+
+Videos 
+
+Photos 
+
+Top Content 
+
+Community 
+
+Recent blog posts 
+
+Contribute Share
+
+Watchlist Random page Recent changes 
+
+Shell NotifyIcon Example 1 Edit Talk
+
+0
+
+2,910pages on
+this wiki 
+
+Advertisement
+
+Contents[show] 
+
+IntroductionEdit 
+
+This is a simple example application of how to use icons in the Windows taskbar 
+notification area. The code presented here is not an example of good coding 
+practice, but is intended to demonstrate a concept. Error checking is left to 
+the developer to implement. 
+
+
+Putting an icon in the taskbar notification area does not automatically hide 
+your application. You need to programmatically implement everything that you 
+want your application to do. Showing/hiding the application is covered in other 
+example applications and is not repeated in this one. 
+
+Advertisement
+
+Download the Source CodeEdit 
+
+Download the source code for this example here: 
+
+Delphi 4 
+
+Delphi 2005 
+
+DescriptionEdit 
+
+To begin with, create a new VCL forms application. The next thing is to create 
+an updated NotifyIconData structure, because the version that is included with 
+Delphi 2005 and earlier has less functionality. Specifics about the structure 
+are explained in the links in the references section of this article. There's 
+little point in repeating them here, so do read them. Without further ado, 
+create a new unit and call it something like "NotifyIcon" and make it look like 
+the following: 
+
+unit NotifyIcon;
+
+interface
+
+uses
+  Windows, Messages;
+
+const
+  {$EXTERNALSYM NIN_BALLOONSHOW}
+  NIN_BALLOONSHOW       = WM_USER + 2;
+  {$EXTERNALSYM NIN_BALLOONHIDE}
+  NIN_BALLOONHIDE       = WM_USER + 3;
+  {$EXTERNALSYM NIN_BALLOONTIMEOUT}
+  NIN_BALLOONTIMEOUT    = WM_USER + 4;
+  {$EXTERNALSYM NIN_BALLOONUSERCLICK}
+  NIN_BALLOONUSERCLICK  = WM_USER + 5;
+
+  {$EXTERNALSYM NIF_INFO}
+  NIF_INFO       = $00000010;
+  {$EXTERNALSYM NIIF_NONE}
+  NIIF_NONE      = $00000000;
+  {$EXTERNALSYM NIIF_INFO}
+  NIIF_INFO      = $00000001;
+  {$EXTERNALSYM NIIF_WARNING}
+  NIIF_WARNING   = $00000002;
+  {$EXTERNALSYM NIIF_ERROR}
+  NIIF_ERROR     = $00000003;
+  {$EXTERNALSYM NIIF_USER}
+  NIIF_USER      = $00000004;
+  {$EXTERNALSYM NIIF_ICON_MASK}
+  NIIF_ICON_MASK = $0000000F;
+  {$EXTERNALSYM NIIF_NOSOUND}
+  NIIF_NOSOUND   = $00000010;
+
+type
+  PNotifyIconDataA = ^TNotifyIconDataA;
+  PNotifyIconData = PNotifyIconDataA;
+  {$EXTERNALSYM _NOTIFYICONDATAA}
+  _NOTIFYICONDATAA = record
+    cbSize: DWORD;
+    Wnd: HWND;
+    uID: UINT;
+    uFlags: UINT;
+    uCallbackMessage: UINT;
+    hIcon: HICON;
+    szTip: array [0..127] of AnsiChar;
+    dwState: DWORD;
+    dwStateMask: DWORD;
+    szInfo: array [0..255] of AnsiChar;
+    case Integer of
+      0: (
+        uTimeout: UINT;
+        szInfoTitle : array [0..63] of AnsiChar;
+        dwInfoFlags: DWORD;
+        guidItem: TGUID);
+      1: (
+        uVersion: UINT);
+  end;
+  {$EXTERNALSYM _NOTIFYICONDATA}
+  _NOTIFYICONDATA = _NOTIFYICONDATAA;
+  TNotifyIconDataA = _NOTIFYICONDATAA;
+  TNotifyIconData = TNotifyIconDataA;
+  {$EXTERNALSYM NOTIFYICONDATAA}
+  NOTIFYICONDATAA = _NOTIFYICONDATAA;
+  {$EXTERNALSYM NOTIFYICONDATA}
+  NOTIFYICONDATA = NOTIFYICONDATAA;
+
+implementation
+
+end.
+
+Add this unit to the uses clause in the interface section of your main form's 
+unit. 
+
+
+Add ShellAPI to the uses clause in the implementation section of your main form's 
+unit. This unit contains some constants used by the example application. 
+
+
+Add the following constant to your unit, the name is arbitrary and the value 
+must be wm_User or greater: 
+
+const
+  wm_IconMessages = wm_User + 100;
+
+
+Add the following to the protected section of your main form's type definition: 
+
+  protected
+    procedure wmIconMessages(var Msg: tMessage); message wm_IconMessages;
+
+The name of the procedure is arbitrary, but the convention is to use something 
+similar to the message to which it responds. Note that we're using the message 
+defined in the constants section. 
+
+
+Add the following variables to the private section of your main form's type 
+definition, they will be used and explained later: 
+
+  private
+    boIconAdded : Boolean;
+    icoIcon : tIcon;
+    nidIconData : TNotifyIconData;
+
+
+The components used by this example application look like the following: 
+
+
+Their entries in the main form's type definition are as follows: 
+
+  TForm1 = class(TForm)
+    BitBtn1: TBitBtn;
+    BitBtn2: TBitBtn;
+    BitBtn3: TBitBtn;
+    Button1: TButton;
+    Button2: TButton;
+    Button3: TButton;
+    Button4: TButton;
+    ComboBox1: TComboBox;
+    Edit1: TEdit;
+    Edit2: TEdit;
+    Exit1: TMenuItem;
+    GroupBox1: TGroupBox;
+    GroupBox2: TGroupBox;
+    GroupBox3: TGroupBox;
+    GroupBox4: TGroupBox;
+    Icon11: TMenuItem;
+    Icon21: TMenuItem;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    Label4: TLabel;
+    Memo1: TMemo;
+    Memo2: TMemo;
+    N1: TMenuItem;
+    OpenDialog1: TOpenDialog;
+    PopupMenu1: TPopupMenu;
+    SpinEdit1: TSpinEdit;
+
+Note that what you have in your user interface has no bearing on the icons in 
+the taskbar notification area. Make your application look however you want. 
+
+
+The first button is used to make the icon appear in the taskbar notification 
+area: 
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+  if ( not boIconAdded ) then begin
+    FillChar(nidIconData,SizeOf(nidIconData),0);
+    nidIconData.cbSize := sizeof(nidIconData);
+    nidIconData.Wnd := self.Handle;
+    nidIconData.uCallbackMessage := wm_IconMessages;
+    nidIconData.uID := 1;
+    nidIconData.hIcon := Application.Icon.Handle;
+    nidIconData.uFlags := NIF_MESSAGE + NIF_ICON;
+    if ( Shell_NotifyIcon(NIM_ADD, @nidIconData) ) then begin
+      boIconAdded := True;
+      Memo2.Lines.Add('Icon added.');
+    end;
+  end;
+end;
+
+
+The first thing to do is check that the icon is not already in the taskbar 
+notification area, otherwise there is nothing to do. 
+
+
+Fill the NotifyIconData structure with zeroes to ensure that nothing unexpected 
+happens because of uninitialized data. 
+
+
+The cbSize member has two purposes. Firstly it lets the operating system know 
+the size of the structure and secondly it tells the operating system what 
+version of the structure you're using. The operating system knows the 
+relationship between the size and the version of the structure. We are 
+insterested in the minimum version that allows us to use balloon ToolTips. The 
+references provided at the end of this article will tell you how to program for 
+different versions of the operating system which support different functionality. 
+
+
+The Wnd member is the handle of the window that receives messages from the 
+operating system relating to the icon in the taskbar notification area. 
+
+
+The uCallbackMessage member is the message identifier that the operating system 
+will send to the above window. This is the constant specified in the constants 
+section of the main form's unit. 
+
+
+The uID member is an arbitrary number used to identify which icon you want to 
+act on. This provides a single application with the ability to have more than 
+one icon in the taskbar notification area. If you make use of this feature, be 
+sure to use a different uCallbackMessage for each icon, otherwise you will not 
+know which icon caused the message to be sent. The uID member is only used in 
+calls you make to the operating system, not in messages you receive from the 
+operating system. 
+
+
+The hIcon member requires a handle to an existing icon that will be used to 
+display in the taskbar notification area. Here we are using the application's 
+main icon as the initial icon. Other methods of using icons will be shown later. 
+Different operating systems support icons with different color depths. Read the 
+references carefully to understand the limitations. 
+
+
+The uFlags member tells the operating system what parts of the structure contain 
+data to be used. You can perform multiple tasks with one call, but some calls 
+are mutually exclusive. Read the references carefully. In this example, when the 
+icon is added to the taskbar notification area, we're telling the operating 
+system with NIF_MESSAGE that the Wnd, uCallbackMessage and uID members have data, 
+and with NIF_ICON that the hIcon member has data. 
+
+
+The order in which you fill the structure is not important. The entire structure 
+is sent to the operating system with the Shell_NotifyIcon API call. The NIM_ADD 
+value tells the operating system that this is a new icon to be added to the 
+taskbar notification area. The example application uses the boIconAdded variable 
+to keep track of whether or not the icon is in the taskbar notification area. 
+The Memo2 memo is used to display what actions are taken by the example 
+application. 
+
+
+The second button is used to delete the icon from the taskbar notification area: 
+
+procedure TForm1.Button2Click(Sender: TObject);
+begin
+  if ( boIconAdded ) then begin
+    nidIconData.uFlags := 0;
+    if ( Shell_NotifyIcon(NIM_DELETE, @nidIconData) ) then begin
+      boIconAdded := False;
+      Memo2.Lines.Add('Icon deleted.');
+    end;
+  end;
+end;
+
+The first thing to do is check that there is an icon in the taskbar notification 
+area to delete, otherwise there is nothing to do. 
+
+
+The Wnd and uID members of the structure already contain the values necessary to 
+identify which icon to delete. If you added more than one icon then you would 
+need to use the uID member to specify which icon you want to delete. Note that 
+the icon is only deleted from the taskbar notification area. The icon will still 
+be in application memory. 
+
+
+The first two bitmap buttons are used to change the icon in the taskbar 
+notification area using icons in the application's resources. To get the icons 
+in the resource is beyond the scope of this article, but simply put, I created 
+two icons and used Delphi's Borland Resource Compiler to create the resource 
+file. I included the necessary files in the example project, including a batch 
+file used to create the resource file. I also saved each icon as a bitmap to use 
+on the bitmap buttons. 
+
+
+The OnClick events of the two bitmap buttons are as follows: 
+
+procedure TForm1.BitBtn1Click(Sender: TObject);
+begin
+  if ( boIconAdded ) then begin
+    nidIconData.uFlags := NIF_ICON;
+    nidIconData.hIcon := LoadIcon(hInstance, 'Icon1');
+    if ( Shell_NotifyIcon(NIM_MODIFY, @nidIconData) ) then
+      Memo2.Lines.Add('Changed to icon 1.')
+    else
+      Memo2.Lines.Add('Failed to change to icon 1.');
+  end;
+end;
+
+procedure TForm1.BitBtn2Click(Sender: TObject);
+begin
+  if ( boIconAdded ) then begin
+    nidIconData.uFlags := NIF_ICON;
+    nidIconData.hIcon := LoadIcon(hInstance, 'Icon2');
+    if ( Shell_NotifyIcon(NIM_MODIFY, @nidIconData) ) then
+      Memo2.Lines.Add('Changed to icon 2.')
+    else
+      Memo2.Lines.Add('Failed to change to icon 2.');
+  end;
+end;
+
+The uFlags member is set to tell the operating system that we're changing the 
+icon used in the taskbar notification area. 
+
+
+The hIcon member is set to the handle of an icon loaded from the application's 
+recources. The example application does not check for errors, but you should. 
+
+
+The third bitmap button uses the standard TOpenDialog to let you choose an icon 
+file from disk. After dropping the TOpenDialog component on the form I set its 
+DefaultExt property to "ico", its Filter peoperty to "Icon files (*.ico)|*.ico" 
+and its FilterIndex to "1". I also set ofFileMustExist to "True" in its Options. 
+The OnClick event handler is as follows: 
+
+procedure TForm1.BitBtn3Click(Sender: TObject);
+begin
+  if ( icoIcon = nil ) then
+    icoIcon := tIcon.Create;
+  if ( boIconAdded ) then
+    if ( OpenDialog1.Execute ) then begin
+      icoIcon.LoadFromFile(OpenDialog1.FileName);
+      nidIconData.uFlags := NIF_ICON;
+      nidIconData.hIcon := icoIcon.Handle;
+      if ( Shell_NotifyIcon(NIM_MODIFY, @nidIconData) ) then
+        Memo2.Lines.Add('Changed to icon "'+OpenDialog1.FileName+'".')
+      else
+        Memo2.Lines.Add('Failed to change to icon "'+OpenDialog1.FileName+'".');
+    end;
+end;
+
+If the icoIcon object, defined in the private section of the main form's type 
+definition, does not exist then it needs to be created. Once created it can be 
+re-used as many times as needed. Alternatively, you could create it explicitly 
+in the main form's OnCreate event handler. It depends entirely on the complexity 
+of your application. In this simple application, this is the only place the 
+object gets used. 
+
+
+Other than loading the icon from a file on disk, the rest is the same as above. 
+
+
+Type some text into the Edit1 edit control and click the "Set tip" button: 
+
+procedure TForm1.Button3Click(Sender: TObject);
+begin
+  if ( boIconAdded ) then begin
+    StrPLCopy(nidIconData.szTip, Edit1.Text, 127);
+    nidIconData.uFlags := NIF_TIP;
+    if ( Shell_NotifyIcon(NIM_MODIFY, @nidIconData) ) then
+      Memo2.Lines.Add('Tip changed.')
+    else
+      Memo2.Lines.Add('Failed to change tip.');
+  end;
+end;
+
+The uFlags member is set to tell the operaing system that we want to change the 
+ToolTip that appears over the icon when the mouse cursor hovers over it in the 
+taskbar notification area. You can include the carriage return and line feed 
+characters to produce a multiline ToolTip in later versions of the operating 
+system, but for simplicity I have used a single line edit control for the 
+ToolTip. See the balloon ToolTip for a multi-line example. 
+
+
+In this version of the NotifyIconData structure, the szTip member is 128 bytes 
+in size, which includes the null terminator. I set the MaxLength property of the 
+Edit1 edit control to "127", but I still use StrPLCopy to create a null 
+terminated string that is guaranteed not to overrun the buffer. 
+
+
+To pop up a balloon ToolTip four pieces of information are required. The 
+ComboBox1, Edit2, Memo1 and SpinEdit1 controls let you choose what to put in the 
+NotifyIconData structure to get the balloon ToolTip that you want. 
+
+
+The Combobox1 control has four Items set at design time: "None", "Info", "Warning" 
+and "Error". In earlier versions of Delphi the Combobox1's ItemIndex property 
+must be set programmatically, otherwise no item will be selected at run time 
+which is undesirable. In later versions of Delphi the ItemIndex property is 
+conveniently available at design timeand I set it to "0". The Style property is 
+set to csDropDownList so that only one of the four existing items can be 
+selected. 
+
+
+Click the "Send balloon tip" button to send the data to the operating system: 
+
+procedure TForm1.Button4Click(Sender: TObject);
+begin
+  if ( boIconAdded ) then begin
+    StrPLCopy(nidIconData.szInfo, Memo1.Text, 255);
+    StrPLCopy(nidIconData.szInfoTitle, Edit2.Text, 63);
+    nidIconData.dwInfoFlags := ComboBox1.ItemIndex;
+    nidIconData.uTimeout := SpinEdit1.Value * 1000;
+    nidIconData.uFlags := NIF_INFO;
+    if ( Shell_NotifyIcon(NIM_MODIFY, @nidIconData) ) then
+      Memo2.Lines.Add('Balloon tip sent.')
+    else
+      Memo2.Lines.Add('Failed to send balloon tip.');
+  end;
+end;
+
+The szInfo member gets the text from the memo control which can have multiple 
+lines,however it is limited to 256 bytes, including the null terminator. The 
+memo's MaxLength property is set to "255", but I still use StrPLCopy to create a 
+null terminated string that is guaranteed not to overrun the buffer. The szInfo 
+member can be an empty string (just the null terminator) to programmatically 
+remove a currently displaying balloon ToolTip that was created by your 
+application. If there is a balloon ToolTip currently being displayed that was 
+created by your application then it will be immediately replaced with the new 
+one. 
+
+
+The szInfoTitle member is optional with the caveat that if it is an empty string 
+then there will be no icon on the top left of the balloon ToolTip, even if you 
+specify one. The edit2 contol's MaxLength property is set to "63", but I still 
+use StrPLCopy to create a null terminated string that is guaranteed not to 
+overrun the buffer. 
+
+
+If you provide a title in the szInfoTitle member then you can use the 
+dwinfoFlags member to specify an icon that appears to the left of the title. The 
+legal values for dwinfoFlags start at 1000, so that is added to the Combobox1's 
+ItemIndex property value to get what we want. 
+
+
+The uTimeout member takes a value between 10,000 and 30,000 which represent 
+milliseconds (thousandths of a second), hence the "* 1000" in the code. If you 
+use a value outside that range then the operating system will use the nearest 
+legal value. The timeout is not well documented making it appear to behave 
+inconsistently. Suffice it to say, do not rely on the timeout for functionality. 
+
+
+Set the uFlags member to NIF_INFO to tell the operating system to use the four 
+members discussed above. 
+
+
+Note that only one balloon ToolTip can be displayed in the taskbar notification 
+area for all applications. Your balloon may not appear immediately. This is 
+discussed in more detail later. 
+
+
+The operating system notifies your application about activities dealing with 
+your taskbar notification area icon using the callback defined in the protected 
+section of your main form as described above. Here is the callback procedure: 
+
+procedure TForm1.wmIconMessages(var Msg: tMessage);
+var
+  ptPosition : TPoint;
+begin
+  case Msg.lParam of
+    NIN_BALLOONSHOW:
+        Memo2.Lines.Add('Received NIN_BALLOONSHOW.');
+    NIN_BALLOONHIDE:
+        Memo2.Lines.Add('Received NIN_BALLOONHIDE.');
+    NIN_BALLOONTIMEOUT:
+        Memo2.Lines.Add('Received NIN_BALLOONTIMEOUT.');
+    NIN_BALLOONUSERCLICK:
+        Memo2.Lines.Add('Received NIN_BALLOONUSERCLICK.');
+    WM_LBUTTONUP: begin
+        Application.BringToFront;
+        Memo2.Lines.Add('Received WM_LBUTTONUP.');
+      end;
+    WM_RBUTTONUP: begin
+        Memo2.Lines.Add('Received WM_RBUTTONUP.');
+        GetCursorPos(ptPosition);
+        PopupMenu1.Popup(ptPosition.x, ptPosition.y);
+      end;
+  end;
+end;
+
+The value of the message's lParam parameter tells you what the message is about. 
+Read the references below for all possible values, the ones used in this example 
+application are for demonstration only. 
+
+
+As mentioned above, only one balloon ToolTip can be displayed at a time. If you 
+send a balloon ToolTip, it may have to wait for another application's balloon 
+ToolTip to disappear. Your application is notified with NIN_BALLOONSHOW when 
+your balloon ToolTip is actually displayed. If you send another balloon ToolTip 
+before the previous one created by your application has disappeared then it will 
+be immediately replaced by the new one. 
+
+
+If you delete the icon from the taskbar notification area while a balloon 
+ToolTip created by your application is being displayed, your application will 
+receive NIN_BALLOONHIDE. If you send a balloon ToolTip with an empty szInfo 
+member while a balloon ToolTip created by your application is being displayed, 
+your application will receive NIN_BALLOONHIDE. 
+
+
+Your application will receive NIN_BALLOONTIMEOUT for a number of reasons: If the 
+balloon ToolTip times out, if your application sends another balloon ToolTip 
+while a previous one is being displayed, if another application sends a balloon 
+ToolTip while one created by your application is being displayed, if the user 
+clicks on the dismiss button in the top, right of the balloon ToolTip. 
+
+
+Your application will receive NIN_BALLOONUSERCLICK if the user clicks on the 
+balloon ToolTip's message or the icon itself. 
+
+
+Your application will receive WM_LBUTTONDOWN and WM_LBUTTONUP if the user uses 
+the mouse's primary button to click on the icon. In this example application I 
+respond by bringing the application to the front. 
+
+
+Your application will receive WM_RBUTTONDOWN and WM_RBUTTONUP if the user uses 
+the mouse's secondary button to click on the icon. In this example application I 
+pop up a simple menu with three items created at design time. The first two pop-up 
+menu items are bound to the OnClick event handlers of the first two bitmap 
+buttons, effectively changing the icon as if one of the buttons was clicked. The 
+third pop-up menu item's OnClick event handler simply shuts down the application 
+as follows: 
+
+procedure TForm1.Exit1Click(Sender: TObject);
+begin
+  Close;
+end;
+
+
+To get a feel for what the example application does, try the following while 
+paying attention to the "Activity History" memo control: 
+
+Click on the "Add Icon" button. 
+
+Click on each of the "Icon" buttons and note how the icon changes immediately, 
+even if there is a balloon ToolTip being displayed. 
+
+Put text in the balloon tool tip memo control.
+Click on the "Send balloon tip" button.
+When the balloon is displayed, change the text and click on the button again.
+Note that the balloon changes immediately. 
+
+Remove the text from the balloon tool tip "Title" control.
+Click on the "Send balloon tip" button.
+Note that there is no icon in the top, left of the balloon, even if you choose 
+one from the combobox.
+Note also that there is no dismiss button in the top, right of the balloon. 
+
+Send a balloon ToolTip with text in the memo control.
+Right-click on the memo control and select "Select All" from the pop-up menu and 
+press the "Delete" key on your keyboard.
+Click on the "Send balloon tip" button.
+Note how the balloon disappears immediately and that the application receives 
+NIN_BALLOONHIDE. 
+
+Switch to another application and left-click on the icon in the taskbar 
+notification area.
+Note how the application reappears, because we specifically programmed it to 
+behave that way.
+Your application can also handle situations where the application is minimized 
+or even hidden. 
+
+Right-click on the icon in the taskbar notification area and try each of the pop-up 
+menu items.
+Note how they do what we programmed them to do. 
+
+Launch two instances of the application and add an icon for each one.
+Change their icons so that you can tell them apart. 
+
+Put text in the balloon tool tip memo control of both applications, then click 
+on each of their "Send balloon tip" buttons.
+Note that only the first application's balloon is displayed. 
+
+Click on the balloon's dismiss button and wait.
+Note how the second application's balloon is now displayed and the second 
+application now receives NIN_BALLOONSHOW. 
+
+See if you can figure out the timeout functionality through trial and error. 
+Good luck! 
+
+ReferencesEdit 
+
+Shell_NotifyIcon Function 
+
+NOTIFYICONDATA Structure 
+
+Using ToolTip Controls 
+
+System Tray Balloon Tips and Freeing Resources Quickly 
+
+Categories: 
+
+Examples Add category 
+
+Read more 
+
+“
+
+This article on delphi.about.com gives a quick description on how to create 
+component templates... 
+
+Creating Component Templates 
+
+“
+
+An Indexing engine originally used to index files might be expanded to index 
+websites. The... 
+
+Expand through options ex 
+
+“
+
+Although this specific example doesn't reproduce the problem in a small project, 
+this caused the... 
+
+Internal Error L681 
+
+Advertisement
+
+Photos 
+Add a Photo 
+
+182photos on this wiki 
+
+See all photos 
+See all photos > 
+
+Recent Wiki Activity 
+
+Android Devices Supported for Application Development 
+
+edited by A Wikia contributor 
+
+Creating DLLs 
+
+edited by A Wikia contributor 
+
+CreateRegKey Routine 
+
+edited by A Wikia contributor 
+
+Good Quality Applications Built With Delphi 
+
+edited by A Wikia contributor 
+See more > 
+
+Around Wikia's network Random Wiki 
+
+[ Lifestyle ] 
+
+About Community Central Careers Advertise API Contact Wikia Terms of Use Privacy 
+Policy Content is available under CC-BY-SA. 
+
+Sign up for a Block N Load Beta Code! Lifestyle Entertainment Video Games 
+

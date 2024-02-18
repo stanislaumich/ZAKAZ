@@ -1,14 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <BorlandProject>
 	<Transactions>
-    <Transaction>1899.12.30 00:00:00.000.008,S:\ZAKAZ\UDM.pas=S:\ZAKAZ\Unit1.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.718,=S:\ZAKAZ\Unit1.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.037,=S:\ZAKAZ\Unit1.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.008,S:\ZAKAZ\UDM.dfm=S:\ZAKAZ\Unit1.dfm</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.560,S:\_programming\Unit1.dfm=S:\ZAKAZ\UMain.dfm</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.783,S:\_programming\Project1.dproj=S:\ZAKAZ\ZAKAZ.dproj</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.664,S:\ZAKAZ\myinifiles.pas=S:\ZAKAZ\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.664,S:\ZAKAZ\Unit1.pas=S:\ZAKAZ\myinifiles.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.783,S:\ZAKAZ\ZAKAZ.dproj=S:\_programming\Project1.dproj</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.008,S:\ZAKAZ\Unit1.dfm=S:\ZAKAZ\UDM.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.318,=S:\ZAKAZ\MYUNITS\Ustr.pas</Transaction>
     <Transaction>1899.12.30 00:00:00.000.103,=S:\_programming\Unit1.pas</Transaction>
-    <Transaction>1899.12.30 00:00:00.000.560,S:\_programming\Unit1.pas=S:\ZAKAZ\UMain.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.560,S:\ZAKAZ\UMain.pas=S:\_programming\Unit1.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.560,S:\ZAKAZ\UMain.dfm=S:\_programming\Unit1.dfm</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.008,S:\ZAKAZ\Unit1.pas=S:\ZAKAZ\UDM.pas</Transaction>
+    <Transaction>1899.12.30 00:00:00.000.037,=S:\ZAKAZ\Unit1.pas</Transaction>
   </Transactions>
 </BorlandProject>

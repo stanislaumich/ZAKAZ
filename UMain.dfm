@@ -10,6 +10,7 @@ object Form1: TForm1
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  Position = poScreenCenter
   OnClose = FormClose
   OnCreate = FormCreate
   TextHeight = 13
@@ -17,13 +18,13 @@ object Form1: TForm1
     Left = 0
     Top = 0
     Width = 894
-    Height = 41
+    Height = 21
     Align = alTop
     TabOrder = 0
     ExplicitWidth = 890
     DesignSize = (
       894
-      41)
+      21)
     object Edit1: TEdit
       Left = 712
       Top = 2
@@ -37,7 +38,7 @@ object Form1: TForm1
       Font.Style = []
       ParentFont = False
       TabOrder = 0
-      Text = 'Edit1'
+      Visible = False
       ExplicitLeft = 708
     end
     object BitBtn1: TBitBtn
@@ -47,20 +48,20 @@ object Form1: TForm1
       Height = 35
       Anchors = [akTop, akRight]
       TabOrder = 1
+      Visible = False
       OnClick = BitBtn1Click
       ExplicitLeft = 844
     end
   end
   object PageControl1: TPageControl
     Left = 0
-    Top = 41
+    Top = 21
     Width = 894
-    Height = 598
+    Height = 618
     ActivePage = TabSheet1
     Align = alClient
     TabOrder = 1
-    ExplicitWidth = 890
-    ExplicitHeight = 597
+    TabStop = False
     object TabSheet1: TTabSheet
       Caption = #1047#1072#1082#1072#1079#1072#1090#1100' '#1087#1077#1095#1072#1090#1100
       object Splitter1: TSplitter
@@ -81,7 +82,6 @@ object Form1: TForm1
         Align = alTop
         Caption = #1055#1072#1088#1072#1084#1077#1090#1088#1099
         TabOrder = 0
-        ExplicitWidth = 882
         DesignSize = (
           886
           273)
@@ -125,6 +125,7 @@ object Form1: TForm1
           Height = 21
           CharCase = ecUpperCase
           TabOrder = 1
+          OnChange = Edit3Change
         end
         object Edit4: TEdit
           Left = 76
@@ -133,6 +134,7 @@ object Form1: TForm1
           Height = 21
           CharCase = ecUpperCase
           TabOrder = 2
+          OnChange = Edit4Change
         end
         object CheckBox1: TCheckBox
           Left = 64
@@ -152,15 +154,15 @@ object Form1: TForm1
           Height = 17
           Anchors = [akLeft, akBottom]
           Caption = #1047#1072#1095#1077#1090#1085#1072#1103' '#1082#1085#1080#1078#1082#1072
-          TabOrder = 4
+          TabOrder = 5
           OnClick = CheckBox2Click
         end
-        object BitBtn2: TBitBtn
+        object Badduser: TBitBtn
           Left = 3
           Top = 225
           Width = 45
           Height = 45
-          Hint = #1044#1086#1073#1072#1074#1080#1090#1100' '#1074'  '#1079#1072#1082#1072#1079' '#1074#1099#1073#1088#1072#1085#1085#1086#1075#1086' '#1089#1090#1091#1076#1077#1085#1090#1072
+          Action = adduser
           Anchors = [akLeft, akBottom]
           Glyph.Data = {
             36080000424D3608000000000000360400002800000020000000200000000100
@@ -229,16 +231,18 @@ object Form1: TForm1
             CBC7050BCF0A060705CA0BCD02CBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCB
             CBCBC7C70703C8C9CACAD302CBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCB
             CBCBCBCBC707070707C7CBCBCBCBCBCBCBCBCBCBCBCBCBCBCBCB}
-          TabOrder = 5
+          TabOrder = 7
         end
         object DBGrid2: TDBGrid
           Left = 4
-          Top = 112
+          Top = 102
           Width = 879
-          Height = 109
+          Height = 119
+          TabStop = False
           Anchors = [akLeft, akTop, akRight, akBottom]
           DataSource = DM.DFind
-          TabOrder = 6
+          Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+          TabOrder = 8
           TitleFont.Charset = DEFAULT_CHARSET
           TitleFont.Color = clWindowText
           TitleFont.Height = -11
@@ -288,7 +292,7 @@ object Form1: TForm1
           Anchors = [akLeft, akBottom]
           Caption = #1044#1091#1073#1083#1080#1082#1072#1090
           Enabled = False
-          TabOrder = 7
+          TabOrder = 4
           Visible = False
         end
         object CheckBox4: TCheckBox
@@ -299,48 +303,47 @@ object Form1: TForm1
           Anchors = [akLeft, akBottom]
           Caption = #1044#1091#1073#1083#1080#1082#1072#1090
           Enabled = False
-          TabOrder = 8
+          TabOrder = 6
+        end
+        object Button1: TButton
+          Left = 328
+          Top = 20
+          Width = 75
+          Height = 25
+          Caption = #1054#1095#1080#1089#1090#1080#1090#1100
+          TabOrder = 9
+          TabStop = False
+          OnClick = Button1Click
         end
       end
       object GroupBox2: TGroupBox
         Left = 0
         Top = 278
         Width = 886
-        Height = 292
+        Height = 312
         Align = alClient
         Caption = #1047#1072#1082#1072#1079
         TabOrder = 1
         ExplicitWidth = 882
-        ExplicitHeight = 291
+        ExplicitHeight = 311
         DesignSize = (
           886
-          292)
-        object DBGrid1: TDBGrid
-          Left = 680
-          Top = 11
-          Width = 203
-          Height = 221
-          DataSource = DM.DWStud
-          TabOrder = 0
-          TitleFont.Charset = DEFAULT_CHARSET
-          TitleFont.Color = clWindowText
-          TitleFont.Height = -11
-          TitleFont.Name = 'Tahoma'
-          TitleFont.Style = []
-          Visible = False
+          312)
+        object Label4: TLabel
+          Left = 60
+          Top = 20
+          Width = 60
+          Height = 13
+          Caption = #1057#1090#1091#1076#1077#1085#1090#1086#1074':'
         end
-        object StringGrid1: TStringGrid
-          Left = 4
-          Top = 67
-          Width = 429
-          Height = 218
-          Anchors = [akLeft, akTop, akRight, akBottom]
-          DefaultRowHeight = 20
-          TabOrder = 1
-          ExplicitWidth = 425
-          ExplicitHeight = 217
+        object Label5: TLabel
+          Left = 126
+          Top = 20
+          Width = 6
+          Height = 13
+          Caption = '0'
         end
-        object BitBtn3: TBitBtn
+        object Bdeluser: TBitBtn
           Left = 4
           Top = 16
           Width = 45
@@ -413,14 +416,17 @@ object Form1: TForm1
             E4060BEB0A070806E8ECE9020303030303030303030303030303030303030303
             03E4E40804E6E7E8E8EE02030303030303030303030303030303030303030303
             030303E408080808E403030303030303030303030303030303E5}
-          TabOrder = 2
+          TabOrder = 0
+          TabStop = False
+          OnClick = BdeluserClick
         end
-        object BitBtn4: TBitBtn
-          Left = 112
+        object Bcreate: TBitBtn
+          Left = 333
           Top = 16
           Width = 177
           Height = 45
-          Caption = #1057#1086#1079#1076#1072#1090#1100' '#1079#1072#1082#1072#1079
+          Action = Action1
+          Caption = #1057#1086#1079#1076#1072#1090#1100' '#1079#1072#1082#1072#1079' (F5)'
           Glyph.Data = {
             36080000424D3608000000000000360400002800000020000000200000000100
             080000000000000400000000000000000000000100000000000000000000FFFF
@@ -488,13 +494,168 @@ object Form1: TForm1
             CB0ACCCD1E0C1FD1D2093C6E51D7C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1
             C2C3C2C2C2C2C203C6C6C8C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1
             C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1C1}
+          TabOrder = 1
+          TabStop = False
+        end
+        object Panel2: TPanel
+          Left = 3
+          Top = 64
+          Width = 880
+          Height = 245
+          Anchors = [akLeft, akTop, akRight, akBottom]
+          Caption = 'Panel2'
+          TabOrder = 2
+          ExplicitWidth = 876
+          ExplicitHeight = 244
+          object StringGrid1: TStringGrid
+            Left = 1
+            Top = 1
+            Width = 878
+            Height = 243
+            TabStop = False
+            Align = alClient
+            ColCount = 9
+            DefaultRowHeight = 20
+            RowCount = 2
+            Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect, goFixedRowDefAlign]
+            TabOrder = 0
+            ExplicitWidth = 874
+            ExplicitHeight = 242
+          end
+        end
+        object CheckBox5: TCheckBox
+          Left = 764
+          Top = 16
+          Width = 97
+          Height = 17
+          Caption = 'CheckBox5'
           TabOrder = 3
+          Visible = False
         end
       end
     end
     object TabSheet2: TTabSheet
       Caption = #1057#1086#1089#1090#1086#1103#1085#1080#1077' '#1079#1072#1082#1072#1079#1086#1074
       ImageIndex = 1
+      object GroupBox3: TGroupBox
+        Left = 0
+        Top = 0
+        Width = 886
+        Height = 590
+        Align = alClient
+        Caption = #1057#1087#1080#1089#1086#1082' '#1079#1072#1082#1072#1079#1086#1074
+        TabOrder = 0
+        DesignSize = (
+          886
+          590)
+        object BitBtn2: TBitBtn
+          Left = 8
+          Top = 20
+          Width = 45
+          Height = 45
+          Action = refresh
+          Glyph.Data = {
+            36080000424D3608000000000000360400002800000020000000200000000100
+            080000000000000400000000000000000000000100000000000000000000FFFF
+            FF00FF00FF00AD614000AE604100AD604100AD5F4100AB604000AD5F4000BA77
+            5B00C68C7400C3846B00BC765900B96F5100B56A4C00B2664700AE624300AC5F
+            4100A95E3E00B46C4F00CE9B8600CB907800BF785B00BE765900BC735600BA71
+            5300B86E5000B66C4E00B4694B00B1654600AD614200A35A3D00CC947E00A45E
+            4100BC795F00D7A89500C7846900C27C5F00C0795C00BE775A00BD745700BB72
+            5400B96F5200B76D4F00B3684A00B1654700AE614200DEB3A200CC8E7500A45B
+            3E00C1816800D9AA9700C8846800C57F6300C37D6000C17B5E00B2664800B064
+            45009A553900DDB19F00D79C8400C47E6200B9705400DBAB9800CB886C00C883
+            6700C6816500B86F5200B9735700BA755A00B3694B00AF634400AC604000DCAE
+            9C00D79C8300D18E7300CF8C7100CD896E00CB876B00C9856900C7826600AB62
+            4500A9614300AD624300AF634500B0644600B8735700BA775C00A85E3F00DBAC
+            9900D2907500D08D7200CE8B6F00CC886D00CA866A00B166490094523700A45B
+            3D0097553900DBAA9600D89C8400D3917600C0785B00AA604200AC5F4000AB5F
+            4100DAA79300D3927700C37C6000AB5F4200AB5F400099553B00D9A59100D99D
+            8500D4937900C17A5E009D573B00D9A38E00DA9E8500D5947A00A05A3C00D8A1
+            8B00D6967C00A55A3C0095533800A35A3C009F593C008D4F3400AA5F4000AC60
+            4100A65D3F00A75D4000BF7F6500DDB4A400DEB5A400DEB5A500DFB6A500E0B6
+            A600E0B7A600E0B7A700E1B8A800E2B9A800BC785C009F583D00B86F5100CB86
+            6B00CD8A6E00D18F7400D7967C00D8997E0083483100CB876C00D4927800D695
+            7A00D7977D00B76E5000B76F54008A4D3400A95E3F00B56C4F00D19A8300CA87
+            6B00A55C3D00B46B4E00CE967F00A85C3E00B56F5300A95D3E00AB5E4000AC60
+            4200B9745900CC927A00C5806400C8836800B76C4F0090513700AE624400BE7F
+            6500C2866E00BB785D00B56E5200B36A4D00B36A4E00BA765A00C5886F00C788
+            6E00C17C5F00C37D6100C5806300BF775A00B2674A00BE7C6100C1806600C17E
+            6300C1795D00AF644600BD7558009D583A00B2674800B86E5100AB6344009453
+            3800BD76580094523800B56B4C009E593C00AD604200AC65470091513600A35B
+            3D00AB604100AD6447009E593D00000000000000000000000000000000000000
+            0000000000000000000000000000000000000000000000000000000000000000
+            0000000000000000000000000000000000000000000000000000000000000000
+            0000000000000000000000000000000000000000000000000000000000000000
+            0000000000000000000000000000000000000000000000000000000000000000
+            0000000000000000000000000000000000000000000000000000020202020202
+            0202020202020202020202020202020202020202020202020202020202020202
+            02020202020202D1D23938D3D402020202020202020202020202020202020202
+            0202020202582E381BC719181729CF0202020202020202D00202020202020202
+            0202020281102CCC2B2A2928BDC22518CD0202020202CECB0202020202020202
+            0202020510C61C1BC71918171637BBBC6CC80202C9CA1BCB0202020202020202
+            0202812EBE56BFC0C0C127BDC2253D42AD50C37CC45A1BAF0202020202020202
+            0269B0B1B2B3B4B5B6B7B8B9BABBBC504F4E4FBD93651BAF0202020202020202
+            A505A6130508A7A802A905AAABAC42AD5E5D5C5B5A98AEAF0202020202020202
+            05050505A202020202020202A3A4344F4E924C9365722B9D020202020202029E
+            050568020202020202020202029FA0A15D5C5B5A98992B9D0202020202020205
+            05110202020202020202020202029C40924C936572942B9D0202020202028005
+            680202020202020202020202028F2B975C5B5A98999A9B960202020202020505
+            0202020202020202020202028F9091924C93657294951A960202020202020582
+            0202020202020202020202838485868788898A8B8C8D8E020202020202020202
+            0202020202020202020202808181818181818181818181020202020202020202
+            0202020202020202020202020202020202020202020202020202020202021105
+            050505050505050505057D02020202020202020202027E7F0202020202021179
+            767A72654B4C4D4E267B020202020202020202020202057C0202020202021175
+            76776B5A5B5C5D26780202020202020202020202026805050202020202021170
+            7172654B4C4D73740202020202020202020202026E056E02020202020202116A
+            646B5A5B5C5D6C6D02020202020202020202026E05056F020202020202021163
+            64654B4C4D4E4F66670202020202020202026805056902020202020202021159
+            4A5A5B5C5D5E4142375F6002020202026105052E056202020202020202021149
+            4A4B4C4D4E4F50353637181C515253545556574758020202020202020202113B
+            3C3D3E3F4041423D25262728292A43444546474802020202020202020202112F
+            303102323334353637161718191A1B1C38391E3A020202020202020202021120
+            2102020222232425262728292A2B0E2C2D2E1F02020202020202020202021112
+            0202020202131415161718191A1B1C1D1E1F0202020202020202020202020202
+            02020202020208090A0B0C0D0E0F101102020202020202020202020202020202
+            0202020202020202130304050607020202020202020202020202020202020202
+            0202020202020202020202020202020202020202020202020202020202020202
+            0202020202020202020202020202020202020202020202020202}
+          TabOrder = 0
+        end
+        object Memo1: TMemo
+          Left = 59
+          Top = 20
+          Width = 493
+          Height = 45
+          TabOrder = 1
+          Visible = False
+        end
+        object StringGrid2: TStringGrid
+          Left = 8
+          Top = 72
+          Width = 875
+          Height = 149
+          Anchors = [akLeft, akTop, akRight]
+          ColCount = 4
+          RowCount = 2
+          Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect, goFixedRowDefAlign]
+          PopupMenu = PopupMenu1
+          TabOrder = 2
+          OnDblClick = StringGrid2SelectCell
+        end
+        object StringGrid3: TStringGrid
+          Left = 8
+          Top = 227
+          Width = 875
+          Height = 355
+          Anchors = [akLeft, akTop, akRight, akBottom]
+          ColCount = 9
+          RowCount = 2
+          Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goColSizing, goRowSelect, goFixedRowDefAlign]
+          TabOrder = 3
+        end
+      end
     end
   end
   object StatusBar1: TStatusBar
@@ -505,5 +666,37 @@ object Form1: TForm1
     Panels = <>
     ExplicitTop = 638
     ExplicitWidth = 890
+  end
+  object ActionList1: TActionList
+    Left = 828
+    Top = 65
+    object adduser: TAction
+      OnExecute = adduserExecute
+    end
+    object deluser: TAction
+    end
+    object refresh: TAction
+      OnExecute = refreshExecute
+    end
+    object Action1: TAction
+      Caption = #1057#1086#1079#1076#1072#1090#1100' '#1079#1072#1082#1072#1079' (F5)'
+      ShortCut = 116
+      OnExecute = Action1Execute
+    end
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 404
+    Top = 197
+    object N1: TMenuItem
+      Caption = #1055#1086#1083#1091#1095#1080#1090#1100' '#1074#1077#1076#1086#1084#1086#1089#1090#1100
+      OnClick = N1Click
+    end
+    object N2: TMenuItem
+      Caption = '-'
+    end
+    object N3: TMenuItem
+      Caption = #1059#1076#1072#1083#1080#1090#1100
+      OnClick = N3Click
+    end
   end
 end
